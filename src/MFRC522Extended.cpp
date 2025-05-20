@@ -239,7 +239,7 @@ MFRC522::StatusCode MFRC522Extended::PICC_Select(	Uid *uid,			///< Pointer to Ui
 	// A Request ATS command should be sent
 	// We also check SAK bit 3 is cero, as it stands for UID complete (1 would tell us it is incomplete)
 	if ((uid->sak & 0x24) == 0x20) {
-		Ats ats;
+		auto& ats = tag.ats;
 		result = PICC_RequestATS(&ats);
 		if (result == STATUS_OK) {
 			// Check the ATS
