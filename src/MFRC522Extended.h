@@ -23,7 +23,7 @@ public:
 	// Structure to store ISO/IEC 14443-4 ATS
 	typedef struct {
 		byte size;
-		byte fsc;                 // Frame size for proximity card
+		uint16_t fsc;           // Frame size for proximity card
 
 		struct {
 			bool transmitted;

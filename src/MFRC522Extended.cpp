@@ -432,9 +432,7 @@ MFRC522::StatusCode MFRC522Extended::PICC_RequestATS(Ats *ats)
 				ats->fsc = 128;
 				break;
 			case 0x08:
-				// This value cannot be hold by a byte
-				// The reason I ignore it is that MFRC255 FIFO is 64 bytes so this is not a possible value (or atleast it shouldn't)
-				//ats->fsc = 256;
+				ats->fsc = 256;
 				break;
 				// TODO: What to do with RFU (Reserved for future use)?
 			default:
