@@ -248,6 +248,7 @@ public:
 		STATUS_INTERNAL_ERROR	,	// Internal error in the code. Should not happen ;-)
 		STATUS_INVALID			,	// Invalid argument.
 		STATUS_CRC_WRONG		,	// The CRC_A does not match
+		STATUS_FINAL_RBLOCK		,	// The final block of the response is a R-block
 		STATUS_MIFARE_NACK		= 0xff	// A MIFARE PICC responded with NAK.
 	};
 	

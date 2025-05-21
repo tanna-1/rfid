@@ -839,8 +839,9 @@ MFRC522::StatusCode MFRC522Extended::TCL_Transceive(TagInfo *tag, byte *sendData
 		byte ackDataSize = FIFO_SIZE;
 
 		result = TCL_TransceiveRBlock(tag, true, ackData, &ackDataSize);
-		if (result != STATUS_OK)
+		if (result != STATUS_OK && result != STATUS_FINAL_RBLOCK) {
 			return result;
+		}
 
 		if (backData && (*backLen > 0)) {
 			if ((*backLen + ackDataSize) > totalBackLen)
@@ -848,6 +849,12 @@ MFRC522::StatusCode MFRC522Extended::TCL_Transceive(TagInfo *tag, byte *sendData
 
 			memcpy(&(backData[*backLen]), ackData, ackDataSize);
 			*backLen += ackDataSize;
+		}
+
+		if (result == STATUS_FINAL_RBLOCK) {
+			// This is not an error
+			result = STATUS_OK;
+			break;
 		}
 	}
 	
@@ -910,6 +917,11 @@ MFRC522::StatusCode MFRC522Extended::TCL_TransceiveRBlock(TagInfo *tag, bool ack
 
 		*backLen = in.inf.size;
 		memcpy(backData, in.inf.data, in.inf.size);
+	}
+
+	if ((in.prologue.pcb & 0x10) == 0) {
+		// This is the final R-Block
+		return STATUS_FINAL_RBLOCK;
 	}
 	
 	return result;
